@@ -27,12 +27,14 @@ export const App = () => {
     setImages(response);
     setIsLoading(false);
     setCurrentSearch(inputForSearch.value);
-    setPageNr(1);
+    setPageNr(2);
   };
 
   const handleClickMore = async () => {
-    const response = await fetchImages(currentSearch, pageNr + 1);
+    setIsLoading({ isLoading: true });
+    const response = await fetchImages(currentSearch, pageNr);
     setImages([...images, ...response]);
+    setIsLoading(false);
     setPageNr(pageNr + 1);
   };
 
@@ -66,12 +68,14 @@ export const App = () => {
         paddingBottom: '24px',
       }}
     >
-      {isLoading ? (
+      {isLoading && (pageNr === 1) ? (
         <Loader />
       ) : (
         <React.Fragment>
           <Searchbar onSubmit={handleSubmit} />
           <ImageGallery onImageClick={handleImageClick} images={images} />
+      
+          {isLoading && (pageNr >= 2) ? <Loader /> : null}
           {images.length > 0 ? <Button onClick={handleClickMore} /> : null}
         </React.Fragment>
       )}
