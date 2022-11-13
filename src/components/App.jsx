@@ -48,17 +48,14 @@ export const App = () => {
     setModalAlt('');
   };
 
-  const handleKeyDown = event => {
-    if (event.code === 'Escape') {
-      handleModalClose();
-    }
-  };
-
   useEffect(() => {
-    const fetchData = async () => {
-      await window.addEventListener('keydown', handleKeyDown);
+    const handleKeyDown = event => {
+      if (event.code === 'Escape') {
+        handleModalClose();
+      }
     };
-  }, [handleKeyDown]);
+    window.addEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <div
